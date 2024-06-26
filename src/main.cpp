@@ -121,6 +121,6 @@ void loop() {
   for(int i = 0; i < sizeof(points) / sizeof(Point); i++){
     ml.write(angle_left(points[i].x, points[i].y));
     mr.write(angle_right(points[i].x, points[i].y));
-    delay(10);
+    delay(50);
   }
 }
