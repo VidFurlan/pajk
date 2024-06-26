@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <Servo.h>
+#include "../gcode/points.hpp"
 
 struct pair {
   float x, y;
@@ -108,12 +109,18 @@ void setup() {
 }
 
 void loop() {
-  for (int i = 0; i < CIRCLE_RES; i++) {
+ /* for (int i = 0; i < CIRCLE_RES; i++) {
     //Serial.println("Circle: ");
     Serial.println(circle[i].x);
     Serial.println(circle[i].y);
     ml.write(angle_left(circle[i].x, circle[i].y));
     mr.write(angle_right(circle[i].x, circle[i].y));
+    delay(10);
+  }*/
+
+  for(int i = 0; i < sizeof(points) / sizeof(Point); i++){
+    ml.write(angle_left(points[i].x, points[i].y));
+    mr.write(angle_right(points[i].x, points[i].y));
     delay(10);
   }
 }
