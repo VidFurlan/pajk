@@ -105,15 +105,23 @@ void setup() {
   delay(2000);
 
   precompute_compute_circle({0, 9}, circle, 1);
+  ml.write(angle_left(2, 5));
+  mr.write(angle_right(2, 5));
 }
 
 void loop() {
-  for (int i = 0; i < CIRCLE_RES; i++) {
+ /* for (int i = 0; i < CIRCLE_RES; i++) {
     //Serial.println("Circle: ");
     Serial.println(circle[i].x);
     Serial.println(circle[i].y);
     ml.write(angle_left(circle[i].x, circle[i].y));
     mr.write(angle_right(circle[i].x, circle[i].y));
     delay(10);
+  }*/
+
+  for(int i = 0; i < sizeof(points) / sizeof(Point); i++){
+    ml.write(angle_left(points[i].x, points[i].y));
+    mr.write(angle_right(points[i].x, points[i].y));
+    delay(50);
   }
 }
