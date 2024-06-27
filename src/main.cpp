@@ -2,6 +2,8 @@
 #include <Servo.h>
 #include "../gcode/points.hpp"
 
+#include "../gcode/points.hpp"
+
 struct pair {
   float x, y;
 };
@@ -106,6 +108,8 @@ void setup() {
   delay(2000);
 
   precompute_compute_circle({0, 9}, circle, 1);
+  ml.write(angle_left(2, 5));
+  mr.write(angle_right(2, 5));
 }
 
 void loop() {

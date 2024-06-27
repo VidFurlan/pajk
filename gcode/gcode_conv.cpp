@@ -16,10 +16,11 @@ struct Point {
 };
 
 //Adjust as needed
-const Point TOPLEFT_BORDER = {0, 12};
-const Point TOPRIGHT_BORDER = {2, 12};
-const Point BOTTOMLEFT_BORDER= {0, 8};
-const Point BOTTOMRIGHT_BORDER = {2, 8};
+
+const Point TOPLEFT_BORDER = {-1, 10};
+const Point TOPRIGHT_BORDER = {5, 10};
+const Point BOTTOMLEFT_BORDER= {-1, 4};
+const Point BOTTOMRIGHT_BORDER = {5, 4};
 
 float distance(Point a, Point b) {
     return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
@@ -58,7 +59,9 @@ int main(int argc, char** argv) {
 
     inputFile.close();
 
-    std::vector<Point> points = {Point{0, 0}};
+
+    std::vector<Point> points = {};
+
     int i = -1;
 
     float maxX = 0;
@@ -86,16 +89,15 @@ int main(int argc, char** argv) {
         maxX = std::max(maxX, point.x);
         maxY = std::max(maxY, point.y);
 
+        if(points.empty()){
+            points.push_back(point);
+            continue;
+        }
+
+
         // Create additional points if distance is too large
         if (distance(points.back(), point) > maxDistance) {
-            Point pointBack = points.back();
-            for (int i = 1; i * maxDistance < distance(pointBack, point); i++) {
-                Point newPoint;
-                newPoint.x = pointBack.x + (point.x - pointBack.x) * i / ceil(distance(pointBack, point) / maxDistance);
-                newPoint.y = pointBack.y + (point.y - pointBack.y) * i / ceil(distance(pointBack, point) / maxDistance);
-
-                points.push_back(newPoint);
-            }
+            points.push_back(point);
         }else{
             Point pointBack = points.back();
             Point newPoint = {(pointBack.x + point.x) / 2, (pointBack.y + point.y) / 2};
