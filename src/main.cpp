@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <Servo.h>
+#include "../gcode/points.hpp"
 
 #include "../gcode/points.hpp"
 
