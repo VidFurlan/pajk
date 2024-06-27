@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <Servo.h>
 
+#include "../gcode/points.hpp"
+
 struct pair {
   float x, y;
 };
