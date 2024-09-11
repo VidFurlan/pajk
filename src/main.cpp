@@ -40,7 +40,6 @@ int tl, tr;
 Servo ml, mr;
 
 struct MoveData{
-	bool type;
 	float x;
 	float y;
 };
@@ -105,12 +104,15 @@ void setup_file_stream(){
 		Serial.println("Failed to open SD card");
 	}
 
-	bmpFile = SD.open("test/test.bmp", FILE_READ);
-	gcodeFile = SD.open("test/test.bin", FILE_READ);
+	bmpFile = SD.open("/test/test.bmp", FILE_READ); //this one is opened just fine 
+	gcodeFile = SD.open("/test/test.pajk", FILE_READ);//file is there but can't be opened
 
-	if(!bmpFile.available() || !bmpFile.available()){
+	if(!(bmpFile.available() && gcodeFile.available())){
 		Serial.println("Failed to open some of files on the SD card, try reuploading them");
 	}
+	Serial.flush();//cause it won't print otherwise look i dont fucking know
+
+// Serial.println(gcodeFile.available());
 }
 
 void setup_display(){
@@ -118,10 +120,13 @@ void setup_display(){
 }
 
 void setup(){
-  setup_servos();
-  setup_file_stream();
-  setup_display();
-  draw_image();
+	Serial.begin(115200);
+
+	setup_servos();
+	setup_file_stream();
+	setup_display();
+	draw_image();
+
 }
 
 void stream_move_data(){
@@ -132,12 +137,15 @@ void stream_move_data(){
 	MoveData dat;
 	gcodeFile.read(&dat, sizeof(MoveData));
 
-	ml.write(angle_left(dat.x, dat.y));
-	mr.write(angle_right(dat.x, dat.y));
+	Serial.println(dat.x, dat.y);
+
+
+//	ml.write(angle_left(dat.x, dat.y));
+//	mr.write(angle_right(dat.x, dat.y));
 
 	delay(50);
 }
 
 void loop(){
-	//stream_move_data();
+	stream_move_data();
 }
